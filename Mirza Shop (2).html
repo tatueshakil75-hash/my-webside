@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mirza Shop</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Hind+Siliguri:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F7F6;--card:#fff;--ink:#12302E;--mute:#5B6B69;--accent:#F5B22E;--accent-ink:#12302E;--line:#DCE5E3;--hero:#12302E;--hero-ink:#F4F7F6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1B1A;--card:#152826;--ink:#E8F0EE;--mute:#9DB0AC;--line:#274240;--hero:#091312;--hero-ink:#E8F0EE}}
+:root[data-theme="dark"]{--bg:#0D1B1A;--card:#152826;--ink:#E8F0EE;--mute:#9DB0AC;--line:#274240;--hero:#091312;--hero-ink:#E8F0EE}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hind Siliguri",system-ui,sans-serif;line-height:1.6}
+h1,h2,h3{font-family:"Bricolage Grotesque","Hind Siliguri",sans-serif;line-height:1.1;margin:0}
+.wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;justify-content:space-between;align-items:center;height:58px}
+.logo{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.3rem}
+.logo span{background:var(--accent);color:var(--accent-ink);padding:0 8px;border-radius:6px;margin-right:6px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.cartbtn{background:var(--ink);color:var(--bg);border:0;border-radius:999px;padding:7px 16px;font-weight:600}
+.hero{background:var(--hero);color:var(--hero-ink);padding:54px 0 60px}
+.hero h1{font-size:clamp(2.4rem,9vw,4.6rem);font-weight:800;max-width:11ch}
+.hero p{max-width:34ch;font-size:1.1rem;opacity:.85;margin:16px 0 26px}
+.cta{display:inline-block;background:var(--accent);color:#12302E;text-decoration:none;font-weight:600;padding:12px 24px;border-radius:999px}
+.perks{display:flex;gap:10px 22px;flex-wrap:wrap;margin-top:26px;font-size:.95rem;opacity:.85}
+section{padding:44px 0}
+h2{font-size:1.9rem;font-weight:800;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.prod{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.pic{height:120px;display:grid;place-items:center;font-size:3.2rem}
+.pb{padding:12px;display:flex;flex-direction:column;gap:4px;flex:1}
+.pb h3{font-size:1rem;font-weight:600}
+.pb small{color:var(--mute)}
+.price{font-weight:600;margin-top:auto;padding-top:6px}
+.add{margin-top:8px;background:var(--accent);color:#12302E;border:0;border-radius:8px;padding:8px;font-weight:600}
+.about p{max-width:60ch;color:var(--mute);font-size:1.05rem}
+footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--mute)}
+footer a{color:var(--ink)}
+.drawer{position:fixed;inset:0 0 0 auto;width:min(380px,100%);background:var(--card);border-left:1px solid var(--line);z-index:20;transform:translateX(100%);transition:transform .25s;display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top,0px)) 18px calc(18px + env(safe-area-inset-bottom,0px))}
+.drawer.open{transform:none}
+.drawer h2{font-size:1.4rem}
+.items{flex:1;overflow:auto;margin:10px 0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.qty button{width:28px;height:28px;border-radius:50%;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.qty span{display:inline-block;min-width:22px;text-align:center}
+.empty{color:var(--mute)}
+.total{display:flex;justify-content:space-between;font-weight:600;font-size:1.1rem;margin-bottom:10px}
+.order{display:block;text-align:center;background:#1FA855;color:#fff;text-decoration:none;font-weight:600;padding:12px;border-radius:10px}
+.order[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.close{background:none;border:0;color:var(--ink);font-size:1.6rem;position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:14px}
+@media (prefers-reduced-motion:reduce){.drawer{transition:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="logo"><span>M</span>Mirza Shop</div><button class="cartbtn" id="openCart">Cart (<b id="count">0</b>)</button></div></header>
+
+<div class="hero"><div class="wrap">
+<h1>Good things, delivered to your door.</h1>
+<p>Fresh picks for your home and everyday life. Order in a few taps.</p>
+<a class="cta" href="#shop">Shop now</a>
+<div class="perks"><span>Cash on delivery</span><span>Fast delivery</span><span>Easy returns</span></div>
+</div></div>
+
+<section id="shop"><div class="wrap">
+<h2>Our products</h2>
+<div class="grid" id="grid"></div>
+</div></section>
+
+<section class="about"><div class="wrap">
+<h2>About Mirza Shop</h2>
+<p>Mirza Shop is a small online store that brings quality everyday products at fair prices. Tell us what you need and we will deliver it to your door.</p>
+</div></section>
+
+<footer><div class="wrap">
+<p>Order or ask us anything on <a href="https://wa.me/8801700000000">WhatsApp</a> · Phone: 01700-000000</p>
+<p>© 2026 Mirza Shop</p>
+</div></footer>
+
+<aside class="drawer" id="drawer" aria-label="Your cart">
+<button class="close" id="closeCart" aria-label="Close cart">×</button>
+<h2>Your cart</h2>
+<div class="items" id="items"></div>
+<div class="total"><span>Total</span><span id="total">৳0</span></div>
+<a class="order" id="order" aria-disabled="true" href="#">Order on WhatsApp</a>
+</aside>
+
+<script>
+var WA="8801700000000";
+var P=[
+{id:1,n:"Cotton T-shirt",d:"Soft, everyday wear",p:450,e:"👕",c:"#F9D9A0"},
+{id:2,n:"Canvas Backpack",d:"Fits a 15″ laptop",p:1250,e:"🎒",c:"#BFE3D6"},
+{id:3,n:"Steel Water Bottle",d:"Keeps cold for 12 hours",p:550,e:"🧴",c:"#C9D8F2"},
+{id:4,n:"Wireless Earbuds",d:"Up to 20 hours of play",p:1800,e:"🎧",c:"#F2C9C9"},
+{id:5,n:"Ceramic Mug",d:"350 ml, microwave safe",p:300,e:"☕",c:"#E3D3F0"},
+{id:6,n:"Desk Lamp",d:"Warm light, USB powered",p:950,e:"💡",c:"#F6E7A6"}
+];
+var cart={};
+function $(i){return document.getElementById(i)}
+function money(n){return "৳"+n.toLocaleString("en-US")}
+$("grid").innerHTML=P.map(function(x){return '<div class="prod"><div class="pic" style="background:'+x.c+'">'+x.e+'</div><div class="pb"><h3>'+x.n+'</h3><small>'+x.d+'</small><div class="price">'+money(x.p)+'</div><button class="add" data-id="'+x.id+'">Add to cart</button></div></div>'}).join("");
+$("grid").addEventListener("click",function(e){var id=e.target.getAttribute("data-id");if(id){cart[id]=(cart[id]||0)+1;render();$("drawer").classList.add("open")}});
+$("items").addEventListener("click",function(e){var id=e.target.getAttribute("data-id"),d=e.target.getAttribute("data-d");if(id){cart[id]+=+d;if(cart[id]<1)delete cart[id];render()}});
+$("openCart").onclick=function(){$("drawer").classList.add("open")};
+$("closeCart").onclick=function(){$("drawer").classList.remove("open")};
+function render(){
+var ids=Object.keys(cart),t=0,c=0,msg="Hello Mirza Shop, I want to order:%0A";
+$("items").innerHTML=ids.length?ids.map(function(id){var x=P.filter(function(p){return p.id==id})[0],q=cart[id];t+=x.p*q;c+=q;msg+=q+" x "+encodeURIComponent(x.n)+"%0A";
+return '<div class="row"><div>'+x.n+'<br><small>'+money(x.p)+'</small></div><div class="qty"><button data-id="'+id+'" data-d="-1" aria-label="Remove one">−</button><span>'+q+'</span><button data-id="'+id+'" data-d="1" aria-label="Add one">+</button></div></div>'}).join(""):'<p class="empty">Your cart is empty. Add a product to get started.</p>';
+$("count").textContent=c;$("total").textContent=money(t);
+var o=$("order");o.setAttribute("aria-disabled",ids.length?"false":"true");o.href=ids.length?"https://wa.me/"+WA+"?text="+msg+"Total: "+money(t):"#";
+}
+render();
+</script>
+</body>
+</html>
